@@ -1,0 +1,4 @@
+SHELL=/bin/bash
+PATH=/home/ubuntu/.local/bin:/usr/local/bin:/usr/bin:/bin
+
+*/3 * * * * cd /home/ubuntu/exam_KHARAIM/exam_bash && /usr/bin/make bash >> /home/ubuntu/exam_KHARAIM/exam_bash/logs/cron.logs 2>&1
