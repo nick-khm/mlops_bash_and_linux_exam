@@ -20,3 +20,49 @@ le modèle standard et avec un horodatage pour les versions ultérieures.
 Les métriques du modèle sont enregistrées dans les logs du script.
 -------------------------------------------------------------------------------
 """
+
+from pathlib import Path
+import pandas as pd
+from xgboost import XGBRegressor
+import pickle
+
+processed_dir = Path("data/processed")
+csv_files = list(processed_dir.glob("sales_processed_*.csv"))
+
+if not csv_files:
+    raise FileNotFoundError("Aucun fichier prétraité trouvé")
+
+latest_csv = max(csv_files, key=lambda f: f.stat().st_mtime)
+
+df = pd.read_csv(latest_csv)
+
+X = df[["model"]]
+y = df["sales"]
+
+print(f"Fichier : {latest_csv}")
+print(f"X : {X.shape}")
+print(f"y : {y.shape}")
+
+model = XGBRegressor(
+    n_estimators=100,
+    max_depth=3,
+    learning_rate=0.1,
+    random_state=42,
+)
+
+model.fit(X, y)
+
+print("Entraînement terminé")
+
+
+model_dir = Path("model")
+model_dir.mkdir(parents=True, exist_ok=True)
+
+model_path = model_dir / "model.pkl"
+
+with open(model_path, "wb") as f:
+    pickle.dump(model, f)
+
+print(f"Modèle sauvegardé : {model_path}")
+
+
