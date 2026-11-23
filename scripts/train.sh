@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # -----------------------------------------------------------------------------
 # Ce script train.sh exécute le programme Python src/train.py
 # Ce programme entraîne un modèle de prédiction et enregistre le modèle final
@@ -6,7 +8,6 @@
 # -----------------------------------------------------------------------------
 
 
-#!/usr/bin/env bash
 
 set -euo pipefail
 
